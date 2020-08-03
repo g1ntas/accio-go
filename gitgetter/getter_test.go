@@ -13,8 +13,12 @@ import (
 	"testing"
 )
 
+func path(p string) string {
+	return filepath.FromSlash(p)
+}
+
 func writeFile(fs billy.Filesystem, filename string, data []byte) error {
-	f, err := fs.OpenFile(filename, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0777)
+	f, err := fs.OpenFile(path(filename), os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0777)
 	if err != nil {
 		return err
 	}
@@ -56,10 +60,10 @@ func TestWalk(t *testing.T) {
 	require.NoError(t, err)
 
 	require.Len(t, visited, 4)
-	require.Contains(t, visited, file{"/", true})
-	require.Contains(t, visited, file{"/dir", true})
-	require.Contains(t, visited, file{"/file.txt", false})
-	require.Contains(t, visited, file{"/dir/file.txt", false})
+	require.Contains(t, visited, file{path("/"), true})
+	require.Contains(t, visited, file{path("/dir"), true})
+	require.Contains(t, visited, file{path("/file.txt"), false})
+	require.Contains(t, visited, file{path("/dir/file.txt"), false})
 }
 
 func TestWalkSkipDir(t *testing.T) {
@@ -83,7 +87,7 @@ func TestWalkError(t *testing.T) {
 	require.NoError(t, err)
 
 	err = treeReader.Walk(func(fpath string, isDir bool, err error) error {
-		if fpath != "/" {
+		if fpath != path("/") {
 			return errors.New("test walk")
 		}
 		return nil
@@ -126,6 +130,6 @@ func TestGetter(t *testing.T) {
 		})
 		require.NoError(t, err)
 
-		require.Equal(t, []string{"/", "/b.txt"}, visited)
+		require.Equal(t, []string{path("/"), path("/b.txt")}, visited)
 	})
 }
