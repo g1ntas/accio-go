@@ -88,7 +88,7 @@ type FileTreeReader struct {
 // large directories Walk can be inefficient.
 // Walk does not follow symbolic links.
 func (r FileTreeReader) Walk(walkFn walkFunc) error {
-	if err := r.walk("/", true, walkFn); err != filepath.SkipDir {
+	if err := r.walk(string(filepath.Separator), true, walkFn); err != filepath.SkipDir {
 		return err
 	}
 	return nil
