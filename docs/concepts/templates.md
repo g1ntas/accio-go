@@ -14,6 +14,7 @@ In the following example, a variable is created and passed to the template tag, 
 variable -name="number" <<
     return 9 * 9
 >>
+
 template <<
 9 * 9 = {{number}}
 >>
@@ -38,12 +39,17 @@ variable -name="number" <<
 
 Context variables in script tags can be accessed with the `vars` variable. In the template tags, variables can be used directly. The example below shows how variables can be shared between different tags:
 ```
+# here local variable "cityUppercase" is defined, which
+# takes a global variable "city" and makes it uppercase.
 variable -name="cityUppercase" <<
     return vars['city'].upper()
 >>
+
 filename << 
     return vars['cityUppercase'] + ".txt"
 >>
+
+# In templates variables can be accessed directly
 template << 
 City is {{cityUppercase}}
 >>

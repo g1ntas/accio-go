@@ -1,17 +1,24 @@
+![Accio](docs/assets/demo.gif)
+
+----
+
 [![Linux, macOS and Windows Build Status](https://travis-ci.org/g1ntas/accio.svg?branch=master)](https://travis-ci.org/g1ntas/accio)
 [![Go Report Card](https://goreportcard.com/badge/github.com/g1ntas/accio)](https://goreportcard.com/report/github.com/g1ntas/accio)
 [![codecov](https://codecov.io/gh/g1ntas/accio/branch/master/graph/badge.svg)](https://codecov.io/gh/g1ntas/accio)
 
+
+
+
+
 ## About
-Accio is a flexible framework for boilerplate code generators. It is designed with readability in mind because logic-full templates are hard to maintain. Its modular approach to templates makes it easy and fun to work with, and the possibility to script - just powerful enough to handle most edge-cases.
+Accio is a scaffolding tool for generating boilerplate code, written in Golang. You can use it to create templates for repetitive code patterns and generate them interactively whenever you need them. The best part about it is that Accio allows you to customize most aspects of code generation with custom scripts.
 
 ## Features
-* Prompts for data input
-* Scripting support with Starlark (Python dialect)
-* Running generators locally or directly from git repositories
-* Unique markup language designed for complex text
-* No dependencies - just a single binary
-* Cross-platform (Linux, OS X and Windows)
+* **Interactive data prompts** - configure prompts and use data in templates;   
+* **Scripting** - write custom scripts to process input data;
+* **Remote generators** - execute generators directly from Git repositories;
+* **No external dependencies** - no need to install external applications, dependency managers, or other tools - everything works out of the box with a single binary;
+* **Cross-platform** - builds for Linux, OS X, Windows, and others.
 
 ## Installation
 ### Pre-compiled binaries
@@ -38,46 +45,33 @@ You can run a generator from a local directory with `run` command:
 
 `accio run ./generator-directory`
 
-Or from any Git repository (and subdirectories are supported!):
+Or directly from Git repository:
+
+`accio run github.com/user/accio-generator-repo`
+
+Subdirectories are supported as well:
 
 `accio run github.com/g1ntas/accio/examples/open-source-license`
 
 ### Creating first generator
-Create a config file `~/example/.accio.toml`:
-```toml
-# Define a prompt, which will be shown when the generator is executed
-[prompts.filename]
-type="input"
-message="Enter filename:"
+1. Create an empty config file `~/example/.accio.toml`
+
+2. Create a template file `~/example/file.txt` with any content:
+```
+Hello, world
 ```
 
-Create a template file `~/example/file.accio`:
-```
-# Make our entered filename uppercase with Starlark code 
-variable -name="uppercaseFilename" <<
-    return vars['filename'].upper()
->>
-
-# Rename the file
-filename << 
-    return vars['uppercaseFilename']
->>
-
-# Use mustache templating engine to output content of the file
-template <<
-Name of this file is: {{uppercaseFilename}}
->>
-```
-
-Run the generator:
+And that's all it takes to create a simple generator - now you can run it.
 ```
 > accio run ~/example
-$ Enter filename:
-> test.txt
-$ [SUCCESS] ~/example/TEST.TXT created.
+$ Running...
+$ Done.
 > cat ~/example/TEST.TXT
-$ Name of this file is: TEST.TXT
+$ Hello, world
 ```
+
+To learn about more advanced features needed to write more complex generators, 
+read [the introduction tutorial](docs/introduction.md).   
 
 ## Examples
 * [github.com/g1ntas/accio/examples/go-travisci-config](examples/go-travisci-config) - generates TravisCI config with selected Go versions, operating systems, and CPU architectures
@@ -85,35 +79,17 @@ $ Name of this file is: TEST.TXT
 * [github.com/g1ntas/accio/examples/open-source-license](examples/open-source-license) - generates the selected open-source license
 
 ## Documentation
+* [Introduction](docs/introduction.md)
 * Core concepts
 	* [Generators](docs/concepts/generators.md)
 	* [Templates](docs/concepts/templates.md)
-		* [Static templates](docs/concepts/templates.md#static-templates)
-		* [Blueprints](docs/concepts/templates.md#blueprints)
 * Reference
 	* [Configuration](docs/reference/configuration.md)
-		* [help](docs/reference/configuration.md#help)
-		* [prompts](docs/reference/configuration.md#prompts)
 	* [Blueprints](docs/reference/blueprints.md)
-		* [Starlark](docs/reference/blueprints.md#starlark)
-		* [Mustache](docs/reference/blueprints.md#mustache)
-		* [Tags](docs/reference/blueprints.md#tags)
-			* [filename](docs/reference/blueprints.md#filename)
-			* [variable](docs/reference/blueprints.md#variable)
-			* [skipif](docs/reference/blueprints.md#skipif)
-			* [partial](docs/reference/blueprints.md#partial)
-			* [template](docs/reference/blueprints.md#template)
 	* [Accio markup language](docs/reference/accio-ml.md)
-		* [Comments](docs/reference/accio-ml.md#comments)
-		* [Identifiers](docs/reference/accio-ml.md#identifiers)
-		* [Tags](docs/reference/accio-ml.md#tags)
-			* [Attributes](docs/reference/accio-ml.md#attributes)
-			* [Body](docs/reference/accio-ml.md#body)
-			* [Inline body](docs/reference/accio-ml.md#inline-body)
-		* [Custom delimiters](docs/reference/accio-ml.md#custom-delimiters)
 
 ## Contributing
-Contributions are more than welcome, if you are interested, feel free to open an issue or create a pull request.
+Contributions are more than welcome, if you are interested please take a look to our [Contributing Guidelines](CONTRIBUTING.md).
 
 ## Copyright
 Accio is released under the MIT license. See [LICENSE](LICENSE).

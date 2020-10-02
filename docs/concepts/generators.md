@@ -1,7 +1,9 @@
 # Generators
-A generator is fundamentally a collection of files represented by directory structure. For a directory, to be considered a generator, it only has to contain a configuration file `.accio.toml`. Every other file within a generator is a template.
+A generator is fundamentally a collection of files represented by directory structure. 
+For a directory, to be considered a generator, it only has to contain a configuration 
+file `.accio.toml`. Every other file within a generator is a template.
 
-Generator file tree example:
+File tree example:
 ```
 generator/
 |── some-subdirectory/
@@ -12,9 +14,11 @@ generator/
 
 ```
 
-The configuration defines metadata for a generator, like, for example, a help text. Moreover, it can define data input that the user has to enter when the generator is executed. 
+The configuration defines metadata for a generator, like, for example, a help text. 
+Moreover, it can define data input that the user has to enter when the generator 
+is executed. 
 
-Configuration example:
+Example:
 ```
 help="This is an example"
 
