@@ -61,7 +61,7 @@ Subdirectories are supported as well:
 Hello, world
 ```
 
-And that's all it takes to create a simple generator - now you can run it.
+And that's all it takes to create a simple generator - now you can run it:
 ```
 > accio run ~/example
 $ Running...
