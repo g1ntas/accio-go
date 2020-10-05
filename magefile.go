@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/magefile/mage/mg"
 	"github.com/magefile/mage/sh"
+	"os"
 	"time"
 )
 
@@ -32,11 +33,17 @@ func Check() error {
 
 // Runs tests
 func Test() error {
+	if os.Getenv("CI") != "" {
+		return sh.RunV(mg.GoCmd(), "test", "-coverprofile=coverage.txt", "-covermode=atomic", "./...")
+	}
 	return sh.RunV(mg.GoCmd(), "test", "./...")
 }
 
 // Runs tests with race detector
 func TestRace() error {
+	if os.Getenv("CI") != "" {
+		return sh.RunV(mg.GoCmd(), "test", "-race", "-coverprofile=coverage.txt", "-covermode=atomic", "./...")
+	}
 	return sh.RunV(mg.GoCmd(), "test", "-race", "./...")
 }
 
@@ -60,11 +67,6 @@ func Coverage() error {
 		return err
 	}
 	return sh.Rm("coverage.out")
-}
-
-// CoverageReport generates coverage report
-func CoverageReport() error {
-	return sh.Run(mg.GoCmd(), "test", "-v", "-coverprofile=coverage.txt", "-covermode=atomic", "./...")
 }
 
 func ldflags() string {
