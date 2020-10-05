@@ -62,6 +62,11 @@ func Coverage() error {
 	return sh.Rm("coverage.out")
 }
 
+// CoverageReport generates coverage report
+func CoverageReport() error {
+	return sh.Run(mg.GoCmd(), "test", "-v", "-coverprofile=coverage.txt", "-covermode=atomic", "./...")
+}
+
 func ldflags() string {
 	timestamp := time.Now().Format(time.RFC3339)
 	hash := commit()
