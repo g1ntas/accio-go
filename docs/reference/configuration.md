@@ -10,6 +10,19 @@ Documentation
 """
 ```
 
+## ignore
+List of paths that should be ignored and not generated. The given paths should be relative to the root directory of 
+the generator. If the path is a directory, then all files inside that directory will be ignored as well. Only Unix 
+paths are recognized, regardless of the operating system, Accio is running on.
+
+```
+ignore=[
+  "README.md", # Ignores file `~/generator/README.md`
+  "/directory/file.txt", # Ignores file `~/generator/directory/file.txt`
+  "some-directory", # Ignores directory `~/generator/some-directory/`
+]
+```
+
 ## prompts
 Defines what data will be prompted when a generator is executed. Prompts are defined as nested [tables/maps](https://github.com/toml-lang/toml#user-content-table). The key within the table represents the name of the data entry, which will be used in generator templates. The value should contain a collection of options describing the behavior of the prompt. The order of prompts is not taken into account and may appear in a different order than in the configuration file.
 

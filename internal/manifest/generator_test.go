@@ -35,6 +35,14 @@ var configTests = []struct {
 		noError,
 	},
 
+	// ignore
+	{
+		"ignore",
+		conf{"ignore": []string{"abc"}},
+		&Generator{Ignore: []string{"abc"}, Prompts: PromptMap{}},
+		noError,
+	},
+
 	// prompts
 	{
 		"Prompt empty type",

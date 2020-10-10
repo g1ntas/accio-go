@@ -83,12 +83,12 @@ Git repository URLs:
 		if err != nil {
 			return err
 		}
-		options := []generator.OptionFn{
+		options := append([]generator.OptionFn{
 			generator.OnFileExists(existingFileHandler(cmd)),
-			generator.IgnoreDir(".git"),
-			generator.IgnoreFile(manifestFilename),
 			generator.WithLogger(logger.NewFromLogger(env.log, "generator")),
-		}
+			generator.IgnorePath(".git"),
+			generator.IgnorePath(manifestFilename),
+		}, ignoredPaths(gen)...)
 		if getBoolFlag(cmd, "ignore-errors") {
 			options = append(options, generator.SkipErrors)
 		}
@@ -146,6 +146,13 @@ func urlToTreeReader(src string) (generator.FileTreeReader, error) {
 	}
 	env.log.Debug("reading generator from remote git repository")
 	return env.git.Get(src)
+}
+
+func ignoredPaths(gen *manifest.Generator) (paths []generator.OptionFn) {
+	for _, p := range gen.Ignore {
+		paths = append(paths, generator.IgnorePath(p))
+	}
+	return paths
 }
 
 // generatorHelpFunc defines run command's help behaviour.

@@ -9,6 +9,7 @@ import (
 
 type Generator struct {
 	Help    string    `toml:"help"`
+	Ignore  []string  `toml:"ignore"`
 	Prompts PromptMap `toml:"prompts"`
 }
 

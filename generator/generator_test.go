@@ -181,13 +181,13 @@ var runnerTests = []struct {
 		"ignore file",
 		[]fsOpFn{file("/generator/ignore.txt", ""), file("/generator/file.txt", "")},
 		[]assertFn{doesntExist("/output/ignore.txt"), fileExists("/output/file.txt", "")},
-		[]OptionFn{IgnoreFile("ignore.txt")},
+		[]OptionFn{IgnorePath("ignore.txt")},
 	},
 	{
 		"ignore directory",
 		[]fsOpFn{file("/generator/ignore/a.txt", ""), file("/generator/ignore/b.txt", "")},
 		[]assertFn{doesntExist("/output/ignore/a.txt"), doesntExist("/output/ignore/b.txt")},
-		[]OptionFn{IgnoreDir("ignore")},
+		[]OptionFn{IgnorePath("ignore")},
 	},
 }
 

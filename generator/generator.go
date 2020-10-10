@@ -9,13 +9,6 @@ import (
 
 const templateExt = ".accio"
 
-const (
-	fileRegular fileType = iota
-	fileDir
-)
-
-type fileType uint
-
 type OptionFn func(*Runner)
 
 // OnExistsFn handles files that already exist at target path.
@@ -99,17 +92,10 @@ func SkipErrors(r *Runner) {
 	r.skipErrors = true
 }
 
-func IgnoreFile(p string) OptionFn {
+func IgnorePath(p string) OptionFn {
 	p = normalizePath(p)
 	return func(r *Runner) {
-		r.ignore[p] = fileRegular
-	}
-}
-
-func IgnoreDir(p string) OptionFn {
-	p = normalizePath(p)
-	return func(r *Runner) {
-		r.ignore[p] = fileDir
+		r.ignore[p] = struct{}{}
 	}
 }
 
@@ -127,7 +113,7 @@ type Runner struct {
 	skipErrors bool
 	onExists   OnExistsFn
 	// ignore defines files to ignore during run, where key is a filepath within generator's structure
-	ignore map[string]fileType
+	ignore map[string]struct{}
 }
 
 func NewRunner(fs Filesystem, bp BlueprintParser, dir string, options ...OptionFn) *Runner {
@@ -136,7 +122,7 @@ func NewRunner(fs Filesystem, bp BlueprintParser, dir string, options ...OptionF
 		bluepr:   bp,
 		log:      NopLogger{},
 		writeDir: dir,
-		ignore:   make(map[string]fileType),
+		ignore:   make(map[string]struct{}),
 		onExists: func(_ string) bool {
 			return false
 		},
@@ -160,15 +146,13 @@ func (r *Runner) Run(ftr FileTreeReader) error {
 		fpath = normalizePath(fpath)
 		r.log.Debug("visiting ", fpath)
 		// skip specified files and directories
-		if ignoredFile, ok := r.ignore[fpath]; ok {
-			switch {
-			case isDir && ignoredFile == fileDir:
+		if _, ok := r.ignore[fpath]; ok {
+			if isDir {
 				r.log.Debug("skip directory")
 				return filepath.SkipDir
-			case !isDir && ignoredFile == fileRegular:
-				r.log.Debug("skip file")
-				return nil
 			}
+			r.log.Debug("skip file")
+			return nil
 		}
 		// do nothing with directories
 		if isDir {
