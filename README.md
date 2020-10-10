@@ -84,9 +84,10 @@ read [the introduction tutorial](docs/introduction.md).
 	* [Generators](docs/concepts/generators.md)
 	* [Templates](docs/concepts/templates.md)
 * Reference
-	* [Configuration](docs/reference/configuration.md)
 	* [Blueprints](docs/reference/blueprints.md)
-	* [Accio markup language](docs/reference/accio-ml.md)
+	* [Configuration](docs/reference/configuration.md)
+	* [Markup language](docs/reference/accio-ml.md)
+	* [Starlark](docs/reference/starlark.md)
 
 ## Contributing
 Contributions are more than welcome, if you are interested please take a look to our [Contributing Guidelines](CONTRIBUTING.md).

@@ -143,7 +143,7 @@ You can read more about the `skipif` tag in [blueprint reference](reference/blue
 
 **About domain-specific languages:**
 * [Accio markup](reference/accio-ml.md)
-* [Starlark](reference/blueprints.md#starlark)
+* [Starlark](reference/starlark.md)
 * [Mustache](reference/blueprints.md#mustache)
 
 **Reference:**

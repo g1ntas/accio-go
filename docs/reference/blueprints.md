@@ -1,34 +1,5 @@
 # Blueprints
 
-## Starlark
-
-Starlark is a dialect of Python which was created by [Bazel](https://bazel.build/) and is used as a scripting language for blueprints. Specification of the language can be found at [google/starlark-go/spec.md](https://github.com/google/starlark-go/blob/master/doc/spec.md).
-
-**NOTE**:  
-* Sets (data type) are not supported
-* All scripts within tags must be indented
-
-### Context variables
-
-In Starlark scripts, context variables can be accessed through the special `vars` variable:
-```
-variable -name="someContextVariable" << "test" >>
-
-filename << vars['someContextVariable'] >>
-```
-
-### Inline scripts
-When using markup's inline body syntax, Starlark scripts are automatically returned, thus a return statement is not needed and will throw an error if used.
-
-In example below, both variables are identical:
-```
-variable -name="name" <<
-    return "John Doe"
->>
-
-variable -name="inlineName" << "John Doe" >>
-```
-
 ## Mustache
 [Mustache](http://mustache.github.io/) is a logic-less templating engine and is used as a templating engine for blueprints. Documentation can be found at [Mustache(5)](http://mustache.github.io/mustache.5.html).
 

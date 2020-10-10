@@ -22,7 +22,8 @@ func execute(content string, ctx *context) (starlark.Value, error) {
 	if err != nil {
 		return nil, err
 	}
-	predeclared := starlark.StringDict{"vars": dict}
+	predeclared := predeclaredFuncs()
+	predeclared["vars"] = dict
 	globals, err := starlark.ExecFile(thread, "", wrapScript(content), predeclared)
 	if err != nil {
 		return nil, err
